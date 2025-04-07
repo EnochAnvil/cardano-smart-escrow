@@ -55,4 +55,24 @@ body {
       shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]
       bg-white;
   }
+  
+  /* Custom slider styles for cross-browser compatibility */
+  .slider-thumb {
+    @apply appearance-none;
+  }
+  
+  /* Webkit browsers (Chrome, Safari) */
+  .slider-thumb::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 bg-black rounded-full cursor-pointer;
+  }
+  
+  /* Firefox */
+  .slider-thumb::-moz-range-thumb {
+    @apply appearance-none w-4 h-4 bg-black rounded-full cursor-pointer border-0;
+  }
+  
+  /* Microsoft Edge */
+  .slider-thumb::-ms-thumb {
+    @apply appearance-none w-4 h-4 bg-black rounded-full cursor-pointer;
+  }
 }

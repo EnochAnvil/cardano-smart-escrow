@@ -1,0 +1,81 @@
+{
+  "preamble": {
+    "title": "aiken-lang/smart-escrow",
+    "description": "Aiken contracts for project 'aiken-lang/smart-escrow'",
+    "version": "0.0.0",
+    "plutusVersion": "v3",
+    "compiler": {
+      "name": "Aiken",
+      "version": "v1.1.7+unknown"
+    },
+    "license": "Apache-2.0"
+  },
+  "validators": [
+    {
+      "title": "hello_world.hello_world.spend",
+      "datum": {
+        "title": "datum",
+        "schema": {
+          "$ref": "#/definitions/hello_world~1Datum"
+        }
+      },
+      "redeemer": {
+        "title": "redeemer",
+        "schema": {
+          "$ref": "#/definitions/hello_world~1Redeemer"
+        }
+      },
+      "compiledCode": "59019601010032323232323232323225333003323232323253330083370e900118051baa001132332253333330120051533300b3370e900018069baa005132533301000100b132533333301400100c00c00c00c132533301230140031533300e3370e900018081baa004132533300f3371e6eb8c050c048dd5004a450d48656c6c6f2c20576f726c642100100114a06644646600200200644a66602c00229404cc894ccc050cdc78010028a51133004004001375c602e00260300026eb0c04cc050c050c050c050c050c050c050c050c044dd50049bae301330113754602660226ea801054cc03d2412465787065637420536f6d6528446174756d207b206f776e6572207d29203d20646174756d001600d375c0026022002601c6ea8014028028028028028c038004c038c03c004c02cdd50008b1806180680198058011805001180500098031baa001149854cc0112411856616c696461746f722072657475726e65642066616c73650013656153300249011272656465656d65723a2052656465656d657200165734ae7155ceaab9e5573eae855d12ba41",
+      "hash": "bad6b3b4832ba7526746088b3e354b2a99152340e334fae1e4eb5141"
+    },
+    {
+      "title": "hello_world.hello_world.else",
+      "redeemer": {
+        "schema": {}
+      },
+      "compiledCode": "59019601010032323232323232323225333003323232323253330083370e900118051baa001132332253333330120051533300b3370e900018069baa005132533301000100b132533333301400100c00c00c00c132533301230140031533300e3370e900018081baa004132533300f3371e6eb8c050c048dd5004a450d48656c6c6f2c20576f726c642100100114a06644646600200200644a66602c00229404cc894ccc050cdc78010028a51133004004001375c602e00260300026eb0c04cc050c050c050c050c050c050c050c050c044dd50049bae301330113754602660226ea801054cc03d2412465787065637420536f6d6528446174756d207b206f776e6572207d29203d20646174756d001600d375c0026022002601c6ea8014028028028028028c038004c038c03c004c02cdd50008b1806180680198058011805001180500098031baa001149854cc0112411856616c696461746f722072657475726e65642066616c73650013656153300249011272656465656d65723a2052656465656d657200165734ae7155ceaab9e5573eae855d12ba41",
+      "hash": "bad6b3b4832ba7526746088b3e354b2a99152340e334fae1e4eb5141"
+    }
+  ],
+  "definitions": {
+    "ByteArray": {
+      "dataType": "bytes"
+    },
+    "VerificationKeyHash": {
+      "title": "VerificationKeyHash",
+      "dataType": "bytes"
+    },
+    "hello_world/Datum": {
+      "title": "Datum",
+      "anyOf": [
+        {
+          "title": "Datum",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "owner",
+              "$ref": "#/definitions/VerificationKeyHash"
+            }
+          ]
+        }
+      ]
+    },
+    "hello_world/Redeemer": {
+      "title": "Redeemer",
+      "anyOf": [
+        {
+          "title": "Redeemer",
+          "dataType": "constructor",
+          "index": 0,
+          "fields": [
+            {
+              "title": "msg",
+              "$ref": "#/definitions/ByteArray"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
