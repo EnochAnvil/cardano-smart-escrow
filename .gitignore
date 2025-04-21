@@ -43,3 +43,13 @@ next-env.d.ts
 
 # windsurf rules
 .windsurfrules
+
+# Database
+/data
+
+# Scripts
+/scripts
+tsconfig.scripts.json
+
+#vs code
+/.vscode

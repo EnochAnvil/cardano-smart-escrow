@@ -5,6 +5,7 @@
 
 import WalletConnector from "@/components/WalletConnector";
 import LockFundsForm from "@/components/LockFundsForm";
+import MyTransactions from "@/components/MyTransactions";
 
 export default function Page() {
   return (
@@ -12,6 +13,7 @@ export default function Page() {
       <h1 className="text-3xl font-bold mb-6 text-black">Cardano Smart Escrow</h1>
       <WalletConnector />
       <LockFundsForm />
+      <MyTransactions />
     </main>
   );
 }

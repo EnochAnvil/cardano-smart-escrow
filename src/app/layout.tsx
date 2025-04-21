@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 import { ClientWeldProvider } from "@/components/WeldProvider";
+import ReactQueryProvider from '@/components/ReactQueryProvider';
 import { cookies } from "next/headers";
 import { STORAGE_KEYS } from "@ada-anvil/weld/server";
 
@@ -37,9 +38,11 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white`}>
         {/* Wrap the application with the ClientWeldProvider for wallet connectivity */}
-        <ClientWeldProvider lastConnectedWallet={lastConnectedWallet}>
-          {children}
-        </ClientWeldProvider>
+        <ReactQueryProvider>
+          <ClientWeldProvider lastConnectedWallet={lastConnectedWallet}>
+            {children}
+          </ClientWeldProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
