@@ -46,7 +46,7 @@ A secure, user-friendly escrow application built on the Cardano blockchain that 
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/cardano-smart-escrow.git
+git clone https://github.com/ThomasEnoch/cardano-smart-escrow.git
 cd cardano-smart-escrow
 
 # Install dependencies (including dev dependencies for SQLite)
