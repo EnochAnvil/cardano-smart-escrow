@@ -27,8 +27,6 @@ export async function POST(request: NextRequest) {
     // Submit the signed transaction to the blockchain
     const result = await submitTransaction(signature, complete);
 
-    console.log('Transaction submitted:', result, ' type:', type);
-
     // Mark transaction as pending in DB
     // For lock transactions, update the new txHash
     // For unlock transactions, update the original txHash

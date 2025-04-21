@@ -103,7 +103,6 @@ export async function lockFunds(params: LockFundsParams): Promise<LockFundsRespo
   try {
     // Derive owner payment key hash for datum
     const paymentKeyHash = await getAddressKeyHash(params.changeAddress);
-    console.log('lockFunds derived paymentKeyHash:', paymentKeyHash);
     
     // Get the validator hash from environment
     const validatorHash = process.env.ESCROW_VALIDATOR_HASH;
@@ -135,8 +134,6 @@ export async function lockFunds(params: LockFundsParams): Promise<LockFundsRespo
         }
       ],
     };
-    
-    console.log('Locking funds with input:', JSON.stringify(input));
 
     // Build the transaction using our generic fetch utility
     const result = await fetchApi<{ hash: string, complete: string }>(
@@ -148,8 +145,6 @@ export async function lockFunds(params: LockFundsParams): Promise<LockFundsRespo
       },
       'build lock transaction'
     );
-    
-    console.log('Lock build result:', result);
     
     // Return hash and complete transaction for client-side signing and DB recording
     return {
@@ -177,8 +172,6 @@ export async function unlockFunds(
 
     // Derive owner payment key hash for requiredSigners
     const signerKeyHash = await getAddressKeyHash(params.changeAddress);
-    console.log('unlockFunds params ownerKeyHash (raw):', params.ownerKeyHash);
-    console.log('Computed signerKeyHash (payment):', signerKeyHash);
 
     const input = {
       changeAddress: params.changeAddress,
@@ -202,9 +195,6 @@ export async function unlockFunds(
       requiredSigners: [signerKeyHash],
     };
 
-    console.log('Unlocking funds with params:', params);
-    console.log('Input:', JSON.stringify(input));
-
     // Build the transaction using our generic fetch utility
     const result = await fetchApi<{ complete: string }>(
       `${API_ENDPOINT}/transactions/build`,
@@ -216,7 +206,6 @@ export async function unlockFunds(
       'build unlock transaction'
     );
     
-    console.log('Unlock build result:', result);
     return { complete: result.complete };
   } catch (error: unknown) {
     return { error: handleApiError('unlock funds', error) };
