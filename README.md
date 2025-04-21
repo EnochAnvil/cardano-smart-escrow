@@ -2,8 +2,6 @@
 
 A secure, user-friendly escrow application built on the Cardano blockchain that allows users to lock and unlock ADA in a smart contract escrow.
 
-![Cardano Smart Escrow](https://via.placeholder.com/800x400?text=Cardano+Smart+Escrow)
-
 ## Features
 
 - **Wallet Integration**: Connect with popular Cardano wallets
