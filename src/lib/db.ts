@@ -1,8 +1,6 @@
 import Database from "better-sqlite3";
-import dotenv from "dotenv";
 import { TransactionStatus } from './types';
 
-dotenv.config();
 const db = new Database(process.env.SQLITE_DB_PATH!);
 
 db.exec(`

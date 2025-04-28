@@ -4,9 +4,6 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Transaction, TransactionStatus, TX_STATUS } from '@/lib/types';
 import { useCallback, useState, useEffect } from 'react';
 
-//--------------------------------------------------------------
-// React Query-dependent hooks for data fetching and cache updates
-//--------------------------------------------------------------
 /**
  * Hook to manage transaction data with smart polling that automatically
  * activates only when pending transactions are detected
@@ -39,6 +36,11 @@ export function usePollingTransactions(wallet?: string) {
   return query;
 }
 
+/**
+ * Hook to update transaction status in the cache
+ * @param wallet - Wallet address to update transactions for
+ * @returns Function to update transaction status
+ */
 export function useTransactionUpdater(wallet?: string) {
   const queryClient = useQueryClient();
   
@@ -83,17 +85,6 @@ export function useTransactionUpdater(wallet?: string) {
   );
 }
 
-//--------------------------------------------------------------
-// Transaction operation hooks (API calls, wallet operations)
-//--------------------------------------------------------------
-
-/**
- * Hook to manage transaction operations (locking and unlocking funds)
- * @param wallet - The wallet instance from useWallet()
- * @param address - The wallet address to use for transactions
- * @returns Functions and state for transaction operations
- */
-// Define types for better readability
 type CardanoWallet = {
   changeAddressHex?: string;
   handler?: {
@@ -101,7 +92,6 @@ type CardanoWallet = {
   };
 };
 
-// API response types
 interface TransactionResponse {
   txHash: string;
   error?: string;
@@ -127,12 +117,19 @@ const apiPost = async <T>(endpoint: string, payload: Record<string, unknown>): P
   return data as T;
 };
 
+/**
+ * Hook to manage transaction operations (locking and unlocking funds)
+ * @param wallet - The wallet instance from useWallet() from Weld
+ * @param address - The wallet address to use for transactions
+ * @returns Functions:
+ * - lockFunds (/escrow/lock + Weld signTx + /escrow/submit): Lock funds in escrow
+ * - unlockFunds (/escrow/unlock + Weld signTx + /escrow/submit): Unlock funds from escrow
+ */
 export function useTransactionOperations(wallet: CardanoWallet, address?: string) {
   const [processing, setProcessing] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const updateTransaction = useTransactionUpdater(address);
 
-  // Transaction building functions
   const buildUnlockTransaction = async (txHash: string, amount: number) => {
     if (!address || !wallet?.changeAddressHex) return null;
     
@@ -167,7 +164,6 @@ export function useTransactionOperations(wallet: CardanoWallet, address?: string
     return data.complete;
   };
 
-  // Transaction signing and submission
   const signTransaction = async (txComplete: string): Promise<string> => {
     const signed = await wallet?.handler?.signTx(txComplete, true);
     if (!signed) {
@@ -176,7 +172,7 @@ export function useTransactionOperations(wallet: CardanoWallet, address?: string
     return signed;
   };
 
-  const submitSignedTransaction = async (signed: string, txComplete: string, originalTxHash: string): Promise<TransactionResponse> => {
+  const submitUnlockTransaction = async (signed: string, txComplete: string, originalTxHash: string): Promise<TransactionResponse> => {
     return apiPost<TransactionResponse>('submit', {
       signature: signed,
       complete: txComplete,
@@ -242,7 +238,7 @@ export function useTransactionOperations(wallet: CardanoWallet, address?: string
       if (!txComplete) throw new Error('Failed to build transaction');
       
       const signedTx = await signTransaction(txComplete);
-      await submitSignedTransaction(signedTx, txComplete, txHash);
+      await submitUnlockTransaction(signedTx, txComplete, txHash);
       
       // Update transaction status in cache
       updateTransaction(txHash, TX_STATUS.UNLOCKED);

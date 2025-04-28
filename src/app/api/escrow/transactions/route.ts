@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const txs = await getTxsByWallet(wallet);
+    const txs = getTxsByWallet(wallet);
     return NextResponse.json(txs);
   } catch (error: unknown) {
     console.error('Error fetching transactions:', error);
